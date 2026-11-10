@@ -66,6 +66,7 @@ export function Gallery() {
             <button
               key={s.title}
               onClick={() => setOpenIdx(i)}
+              aria-label={`Открыть кадр: ${s.title}`}
               className="group mc-panel relative block overflow-hidden text-left animate-in fade-in zoom-in-95 duration-500"
               style={{ animationDelay: `${i * 60}ms`, animationFillMode: "both" }}
             >
