@@ -72,7 +72,7 @@ export function Jukebox() {
           <Reveal>
             <div className="flex flex-col items-center">
               {/* Disc */}
-              <div className="relative z-10 -mb-16 sm:-mb-20">
+              <div className="relative z-10 -mb-6 sm:-mb-8">
                 <div
                   className={cn("animate-spin-disc drop-shadow-[0_10px_20px_oklch(0_0_0/0.6)]", !playing && "[animation-play-state:paused]")}
                 >
@@ -84,7 +84,7 @@ export function Jukebox() {
                 <div className="h-6 bg-wood-dark shadow-[inset_0_-4px_0_oklch(0_0_0/0.35)]" />
                 <div className="grid grid-cols-[1fr_2fr_1fr] gap-0 bg-wood p-4">
                   <div className="h-full bg-wood-deep shadow-[inset_-3px_-3px_0_oklch(0_0_0/0.35)]" />
-                  <div className="mx-3 flex h-32 items-end justify-center gap-[3px] bg-obsidian p-2 shadow-[inset_3px_3px_0_oklch(0_0_0/0.6)]">
+                  <div className="mx-3 flex h-36 items-end justify-center gap-[3px] bg-obsidian p-2 shadow-[inset_3px_3px_0_oklch(0_0_0/0.6)]">
                     {Array.from({ length: BARS }).map((_, i) => (
                       <span
                         key={i}

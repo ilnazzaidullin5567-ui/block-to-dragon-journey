@@ -212,16 +212,14 @@ export function MineableBlock() {
         <p className="mt-3 text-center font-mono text-xs text-muted-foreground">
           Наведи курсор (или зажми пальцем), чтобы добыть блок
         </p>
-        {Object.keys(mined).length > 0 && (
-          <div className="mt-3 flex flex-wrap justify-center gap-2">
+        <div className="mt-3 flex min-h-11 flex-wrap justify-center gap-2">
             {BLOCKS.filter((b) => mined[b.dropName]).map((b) => (
               <div key={b.dropName} className="mc-slot relative grid h-11 w-11 place-items-center" title={b.dropName}>
                 <PixelArt sprite={b.drop} size={26} />
                 <span className="font-pixel text-shadow-pixel absolute right-0.5 bottom-0 text-[0.5rem]">{mined[b.dropName]}</span>
               </div>
             ))}
-          </div>
-        )}
+        </div>
       </div>
     </div>
   );

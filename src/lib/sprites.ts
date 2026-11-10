@@ -151,31 +151,27 @@ export const enderEye: Sprite = {
 
 /** Procedural music disc: concentric pixel rings with a coloured label. */
 export function musicDisc(label: string, accent: string): Sprite {
-  const size = 16;
+  const size = 24;
+  const c = (size - 1) / 2;
+  const R = size / 2;
   const rows: string[] = [];
-  const c = 7.5;
   for (let y = 0; y < size; y++) {
     let row = "";
     for (let x = 0; x < size; x++) {
       const d = Math.hypot(x - c, y - c);
-      if (d > 7.6) row += ".";
-      else if (d > 6.8) row += "K";
-      else if (d > 3.2) row += (Math.round(d * 2) % 3 === 0 ? "g" : "D");
-      else if (d > 1.1) row += (x + y) % 5 === 0 ? "a" : "L";
+      if (d > R - 0.2) row += ".";
+      else if (d > R - 1.2) row += "K";
+      else if (d > R * 0.42) {
+        const glint = Math.abs(x - y) <= 1 && x < c - 2 && d > R * 0.55 && d < R - 2;
+        row += glint ? "w" : Math.round(d) % 3 === 0 ? "g" : "D";
+      } else if (d > 1.6) row += (x * 3 + y) % 7 === 0 ? "a" : "L";
       else row += "H";
     }
     rows.push(row);
   }
-  // highlight glint
-  const glintRows = rows.map((r, y) =>
-    r
-      .split("")
-      .map((ch, x) => (ch === "D" && x - y === -6 ? "w" : ch))
-      .join(""),
-  );
   return {
-    rows: glintRows,
-    palette: { K: "#0a0a0a", D: "#1c1c1c", g: "#2c2c2c", L: label, a: accent, H: "#050505", w: "#5a5a5a" },
+    rows,
+    palette: { K: "#0a0a0a", D: "#1c1c1c", g: "#2c2c2c", L: label, a: accent, H: "#050505", w: "#4a4a4a" },
   };
 }
 
