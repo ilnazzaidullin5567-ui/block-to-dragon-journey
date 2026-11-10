@@ -162,7 +162,7 @@ export function Crafting() {
           <Reveal>
             <div className="mc-panel p-3">
               <p className="font-pixel mb-3 px-1 text-[0.55rem] uppercase text-muted-foreground">Книга рецептов</p>
-              <div className="grid grid-cols-2 gap-2 lg:grid-cols-1">
+              <div className="grid grid-cols-1 gap-2 min-[420px]:grid-cols-2 lg:grid-cols-1">
                 {RECIPES.map((r) => {
                   const active = r.id === recipeId;
                   return (
@@ -178,7 +178,7 @@ export function Crafting() {
                       <span className="mc-slot grid h-10 w-10 shrink-0 place-items-center">
                         <PixelArt sprite={r.result} size={26} />
                       </span>
-                      <span className="leading-snug">{r.name}</span>
+                      <span className="min-w-0 leading-snug break-words">{r.name}</span>
                     </button>
                   );
                 })}

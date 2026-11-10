@@ -22,13 +22,15 @@ export function Jukebox() {
   const track = TRACKS.find((t) => t.id === trackId)!;
 
   useEffect(() => {
-    const data = new Uint8Array(64);
+    const data = new Uint8Array(512);
+    // Log-spaced bins from ~90 Hz to ~6 kHz so every bar moves.
+    const bins = Array.from({ length: BARS }, (_, i) => Math.round(2 * Math.pow(64, i / (BARS - 1))));
     let raf = 0;
     const tick = (t: number) => {
       const active = readLevels(data);
       barsRef.current.forEach((el, i) => {
         if (!el) return;
-        const v = active ? data[Math.min(63, Math.floor(i * 1.6) + 1)] / 255 : 0.08 + Math.abs(Math.sin(t / 900 + i * 0.5)) * 0.08;
+        const v = active ? Math.min(1, (data[bins[i]] / 255) * (1 + i / BARS)) : 0.08 + Math.abs(Math.sin(t / 900 + i * 0.5)) * 0.08;
         el.style.transform = `scaleY(${Math.max(0.05, v)})`;
       });
       raf = requestAnimationFrame(tick);

@@ -14,7 +14,7 @@ function getCtx() {
     master = ctx.createGain();
     master.gain.value = 0.5;
     analyser = ctx.createAnalyser();
-    analyser.fftSize = 128;
+    analyser.fftSize = 1024;
     analyser.smoothingTimeConstant = 0.78;
     master.connect(analyser);
     analyser.connect(ctx.destination);
