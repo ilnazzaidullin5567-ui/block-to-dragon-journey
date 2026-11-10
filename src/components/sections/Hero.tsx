@@ -13,11 +13,11 @@ const seeded = (i: number) => {
   return x - Math.floor(x);
 };
 const ORBS = Array.from({ length: 28 }, (_, i) => ({
-  left: seeded(i) * 100,
-  top: 35 + seeded(i + 100) * 65,
-  size: 6 + Math.round(seeded(i + 200) * 8),
-  delay: seeded(i + 300) * 8,
-  dur: 6 + seeded(i + 400) * 6,
+  left: (seeded(i) * 100).toFixed(2),
+  top: (35 + seeded(i + 100) * 65).toFixed(2),
+  size: `${6 + Math.round(seeded(i + 200) * 8)}px`,
+  delay: (seeded(i + 300) * 8).toFixed(2),
+  dur: (6 + seeded(i + 400) * 6).toFixed(2),
 }));
 
 export function Hero() {
@@ -68,7 +68,7 @@ export function Hero() {
               height: o.size,
               boxShadow: "0 0 12px 3px color-mix(in oklab, var(--emerald) 75%, transparent), inset -2px -2px 0 color-mix(in oklab, var(--emerald) 80%, black)",
               animation: `xp-float ${o.dur}s ease-in-out ${o.delay}s infinite, xp-pulse 1.4s steps(4) infinite`,
-              opacity: 0,
+              opacity: "0",
             }}
           />
         ))}
