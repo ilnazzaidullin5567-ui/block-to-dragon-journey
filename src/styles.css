@@ -1,9 +1,6 @@
 /*
  * Tailwind v4 entry: config lives here, with no tailwind.config.js or PostCSS plugin.
- * - Keep every @import in this top block, above @theme and the rest of the file. Install an
- *   npm package before @importing its CSS. Never @import a remote URL (web fonts, CDN CSS): the
- *   build resolves @import from the filesystem. Load those with a <link> in the head() of
- *   src/routes/__root.tsx and name the family in a --font-* token in @theme inline below.
+ * Keep every @import in this top block. Remote fonts load via <link> in src/routes/__root.tsx.
  */
 @import "tailwindcss" source(none);
 @source "../src";
@@ -12,31 +9,21 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Design system definition.
- *
- * The design lives in this file: oklch color tokens on the shadcn variables
- * (--background, --foreground, --primary, --secondary, --muted, --accent, ...) plus
- * new tokens as needed, font tokens, and custom styles and animations.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ * Minecraft "Бесконечные Миры" design system.
+ * Obsidian surfaces, grass-block greens, emerald neon, diamond cyan, lava/redstone,
+ * Nether-portal violet. Pixel GUI chrome (hard borders + inset bevels) via @utility below.
  */
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+  --font-pixel: "Press Start 2P", ui-monospace, monospace;
+  --font-sans: "Rubik", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -56,100 +43,329 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-ring-offset-background: var(--background);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-obsidian: var(--obsidian);
+  --color-obsidian-2: var(--obsidian-2);
+  --color-obsidian-3: var(--obsidian-3);
+  --color-grass: var(--grass);
+  --color-grass-dark: var(--grass-dark);
+  --color-emerald: var(--emerald);
+  --color-diamond: var(--diamond);
+  --color-lava: var(--lava);
+  --color-redstone: var(--redstone);
+  --color-portal: var(--portal);
+  --color-gold: var(--gold);
+  --color-stone: var(--stone);
+  --color-stone-light: var(--stone-light);
+  --color-stone-dark: var(--stone-dark);
+  --color-tooltip: var(--tooltip);
+  --color-tooltip-border: var(--tooltip-border);
+  --color-mc-gray: var(--mc-gray);
+  --color-mc-aqua: var(--mc-aqua);
+  --color-mc-blue: var(--mc-blue);
+  --color-mc-yellow: var(--mc-yellow);
+  --color-mc-pink: var(--mc-pink);
+  --color-dim: var(--dim);
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
-}
+  --radius: 0px;
 
-.dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  --obsidian: oklch(0.165 0.009 274.3);
+  --obsidian-2: oklch(0.201 0.014 272.6);
+  --obsidian-3: oklch(0.24 0.018 270.6);
+  --grass: oklch(0.578 0.133 136.5);
+  --grass-dark: oklch(0.485 0.121 137);
+  --emerald: oklch(0.785 0.219 148.8);
+  --diamond: oklch(0.764 0.131 179.7);
+  --lava: oklch(0.66 0.229 35.4);
+  --redstone: oklch(0.601 0.218 26.9);
+  --portal: oklch(0.582 0.275 301);
+  --gold: oklch(0.802 0.171 73.3);
+  --stone: oklch(0.52 0 0);
+  --stone-light: oklch(0.637 0 0);
+  --stone-dark: oklch(0.337 0 0);
+  --tooltip: oklch(0.121 0.056 328.4 / 0.96);
+  --tooltip-border: oklch(0.294 0.176 281.2);
+  --mc-gray: oklch(0.738 0 0);
+  --mc-aqua: oklch(0.915 0.136 195);
+  --mc-blue: oklch(0.65 0.2 275);
+  --mc-yellow: oklch(0.971 0.183 109.4);
+  --mc-pink: oklch(0.74 0.272 327.9);
+
+  /* Atmosphere color for the dimensions block (changed per dimension) */
+  --dim: var(--emerald);
+
+  --background: var(--obsidian);
+  --foreground: oklch(0.926 0.005 78.3);
+  --card: var(--obsidian-2);
+  --card-foreground: var(--foreground);
+  --popover: var(--tooltip);
+  --popover-foreground: var(--foreground);
+  --primary: var(--grass);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: var(--obsidian-3);
+  --secondary-foreground: var(--foreground);
+  --muted: var(--obsidian-3);
+  --muted-foreground: oklch(0.705 0.022 267.2);
+  --accent: var(--emerald);
+  --accent-foreground: var(--obsidian);
+  --destructive: var(--redstone);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.32 0.02 270);
+  --input: oklch(0.32 0.02 270);
+  --ring: var(--emerald);
+
+  --bevel: inset -4px -4px 0 0 oklch(0 0 0 / 0.45), inset 4px 4px 0 0 oklch(1 0 0 / 0.2);
+  --bevel-pressed: inset 4px 4px 0 0 oklch(0 0 0 / 0.45), inset -4px -4px 0 0 oklch(1 0 0 / 0.12);
+  --slot-shadow: inset 3px 3px 0 0 oklch(0 0 0 / 0.55), inset -3px -3px 0 0 oklch(1 0 0 / 0.08);
+  --glow-emerald: 0 0 24px color-mix(in oklab, var(--emerald) 55%, transparent);
+  --glow-portal: 0 0 32px color-mix(in oklab, var(--portal) 55%, transparent);
+  --glow-lava: 0 0 28px color-mix(in oklab, var(--lava) 55%, transparent);
+  --gradient-hero-fade: linear-gradient(180deg, oklch(0.165 0.009 274.3 / 0.25) 0%, oklch(0.165 0.009 274.3 / 0.55) 55%, var(--obsidian) 100%);
+  --gradient-portal: linear-gradient(135deg, var(--portal), oklch(0.45 0.25 290));
 }
 
 @layer base {
   * {
     border-color: var(--color-border);
   }
-
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 88px;
+  }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
+  ::selection {
+    background: var(--emerald);
+    color: var(--obsidian);
+  }
+  img,
+  svg.pixel {
+    image-rendering: pixelated;
+  }
+}
+
+/* ---------- Pixel GUI utilities ---------- */
+
+@utility font-pixel {
+  font-family: var(--font-pixel);
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+}
+
+@utility text-shadow-pixel {
+  text-shadow: 3px 3px 0 oklch(0 0 0 / 0.65);
+}
+
+@utility text-shadow-glow {
+  text-shadow: 3px 3px 0 oklch(0 0 0 / 0.7), 0 0 18px color-mix(in oklab, var(--emerald) 70%, transparent);
+}
+
+/* Minecraft GUI button base */
+@utility mc-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-family: var(--font-pixel);
+  font-size: 0.7rem;
+  line-height: 1.4;
+  text-transform: uppercase;
+  border: 2px solid oklch(0 0 0);
+  box-shadow: var(--bevel);
+  text-shadow: 2px 2px 0 oklch(0 0 0 / 0.55);
+  transition: transform 80ms steps(2), filter 120ms, box-shadow 80ms;
+  cursor: pointer;
+  user-select: none;
+  &:hover {
+    filter: brightness(1.12);
+  }
+  &:active {
+    transform: translateY(3px);
+    box-shadow: var(--bevel-pressed);
+  }
+  &:focus-visible {
+    outline: 2px solid var(--mc-yellow);
+    outline-offset: 2px;
+  }
+}
+
+/* Inventory slot */
+@utility mc-slot {
+  background: oklch(0.2 0.01 270);
+  border: 2px solid oklch(0 0 0 / 0.9);
+  box-shadow: var(--slot-shadow);
+}
+
+/* Panel / window chrome (dark GUI) */
+@utility mc-panel {
+  background: var(--obsidian-2);
+  border: 2px solid oklch(0 0 0);
+  box-shadow: inset 0 0 0 2px oklch(1 0 0 / 0.06), inset -4px -4px 0 0 oklch(0 0 0 / 0.4), inset 4px 4px 0 0 oklch(1 0 0 / 0.06), 6px 6px 0 0 oklch(0 0 0 / 0.5);
+}
+
+/* Light stone GUI window (crafting table) */
+@utility mc-window {
+  background: var(--stone-light);
+  border: 2px solid oklch(0 0 0);
+  box-shadow: inset 4px 4px 0 0 oklch(1 0 0 / 0.55), inset -4px -4px 0 0 oklch(0 0 0 / 0.35), 8px 8px 0 0 oklch(0 0 0 / 0.55);
+  color: oklch(0.25 0 0);
+}
+
+@utility mc-window-slot {
+  background: oklch(0.55 0 0);
+  border: 2px solid;
+  border-color: oklch(0.3 0 0) oklch(1 0 0) oklch(1 0 0) oklch(0.3 0 0);
+}
+
+/* Enchanted-item tooltip */
+@utility mc-tooltip {
+  background: var(--tooltip);
+  border: 2px solid var(--tooltip);
+  outline: 2px solid var(--tooltip-border);
+  outline-offset: -4px;
+  padding: 0.75rem 0.9rem;
+  font-family: var(--font-mono);
+  box-shadow: 0 10px 40px oklch(0 0 0 / 0.6);
+}
+
+/* Pixel corner notches (advancement frame) */
+@utility pixel-corners {
+  clip-path: polygon(
+    0 8px, 4px 8px, 4px 4px, 8px 4px, 8px 0,
+    calc(100% - 8px) 0, calc(100% - 8px) 4px, calc(100% - 4px) 4px, calc(100% - 4px) 8px, 100% 8px,
+    100% calc(100% - 8px), calc(100% - 4px) calc(100% - 8px), calc(100% - 4px) calc(100% - 4px), calc(100% - 8px) calc(100% - 4px), calc(100% - 8px) 100%,
+    8px 100%, 8px calc(100% - 4px), 4px calc(100% - 4px), 4px calc(100% - 8px), 0 calc(100% - 8px)
+  );
+}
+
+@utility bg-bedrock {
+  background-color: var(--obsidian);
+  background-image: url("/textures/bedrock.svg");
+  background-size: 64px 64px;
+  image-rendering: pixelated;
+}
+
+@utility bg-stone-tex {
+  background-image: url("/textures/stone.svg");
+  background-size: 48px 48px;
+  image-rendering: pixelated;
+}
+
+@utility bg-obsidian-tex {
+  background-image: url("/textures/obsidian.svg");
+  background-size: 64px 64px;
+  image-rendering: pixelated;
+}
+
+@utility bg-pixel-grid {
+  background-image:
+    linear-gradient(oklch(1 0 0 / 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(1 0 0 / 0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ---------- Animations ---------- */
+
+@keyframes xp-float {
+  0% { transform: translate3d(0, 0, 0) scale(0.8); opacity: 0; }
+  15% { opacity: 1; }
+  50% { transform: translate3d(14px, -60px, 0) scale(1.1); }
+  85% { opacity: 1; }
+  100% { transform: translate3d(-10px, -130px, 0) scale(0.7); opacity: 0; }
+}
+@keyframes xp-pulse {
+  0%, 100% { filter: hue-rotate(0deg) brightness(1); }
+  50% { filter: hue-rotate(40deg) brightness(1.3); }
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes spin-disc { to { transform: rotate(360deg); } }
+@keyframes heart-shake {
+  0%, 100% { transform: translateY(0); }
+  25% { transform: translateY(-2px); }
+  75% { transform: translateY(1px); }
+}
+@keyframes glint {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes particle-burst {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(0.3); opacity: 0; }
+}
+@keyframes pop-in {
+  0% { transform: scale(0.2); opacity: 0; }
+  70% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); }
+}
+@keyframes creeper-hiss {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(-2px, 1px) scale(1.04); }
+  50% { transform: translate(2px, -1px) scale(1.08); }
+  75% { transform: translate(-1px, -2px) scale(1.04); }
+}
+@keyframes flash-white {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.85; }
+}
+@keyframes eq-bar {
+  0%, 100% { transform: scaleY(0.15); }
+  50% { transform: scaleY(1); }
+}
+@keyframes portal-swirl {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+@keyframes blink-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+@utility animate-bob { animation: bob 3.2s ease-in-out infinite; }
+@utility animate-spin-disc { animation: spin-disc 3.2s linear infinite; }
+@utility animate-pop-in { animation: pop-in 380ms cubic-bezier(0.2, 0.9, 0.3, 1.3) both; }
+@utility animate-hiss { animation: creeper-hiss 120ms linear infinite; }
+@utility animate-blink { animation: blink-dot 1.6s steps(2) infinite; }
+@utility animate-heart-shake { animation: heart-shake 0.5s steps(2) infinite; }
+
+/* Enchantment glint overlay */
+@utility enchant-glint {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(110deg, transparent 30%, color-mix(in oklab, var(--portal) 55%, transparent) 45%, color-mix(in oklab, var(--mc-pink) 40%, transparent) 55%, transparent 70%);
+    background-size: 250% 100%;
+    mix-blend-mode: screen;
+    animation: glint 2.6s linear infinite;
+  }
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 700ms ease, transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; }
 }
