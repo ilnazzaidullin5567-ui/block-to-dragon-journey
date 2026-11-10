@@ -369,3 +369,9 @@
   .reveal { opacity: 1; transform: none; transition: none; }
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; }
 }
+
+@property --dim {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(0.785 0.219 148.8);
+}
