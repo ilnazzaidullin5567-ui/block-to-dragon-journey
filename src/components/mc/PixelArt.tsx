@@ -18,7 +18,7 @@ export const PixelArt = memo(function PixelArt({ sprite, size = 32, className, t
     sprite.rows.forEach((row, y) => {
       let x = 0;
       while (x < row.length) {
-        const ch = row[x];
+        const ch = row.charAt(x);
         if (ch === ".") {
           x++;
           continue;

@@ -40,7 +40,7 @@ export function Footer() {
           Array.from({ length: 40 }, (_, i) => {
             const a = Math.random() * Math.PI * 2;
             const d = 80 + Math.random() * 180;
-            return { id: Date.now() + i, dx: Math.cos(a) * d, dy: Math.sin(a) * d, c: cols[i % cols.length], s: 6 + Math.random() * 10 };
+            return { id: Date.now() + i, dx: Math.cos(a) * d, dy: Math.sin(a) * d, c: cols[i % cols.length] ?? "#4fae3a", s: 6 + Math.random() * 10 };
           }),
         );
       }, 1500),

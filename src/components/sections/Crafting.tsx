@@ -126,7 +126,7 @@ const TONE = {
 } as const;
 
 export function Crafting() {
-  const [recipeId, setRecipeId] = useState(RECIPES[0].id);
+  const [recipeId, setRecipeId] = useState(RECIPES[0]!.id);
   const [ready, setReady] = useState(false);
   const [inventory, setInventory] = useState<Record<string, number>>({});
   const [toast, setToast] = useState<string | null>(null);

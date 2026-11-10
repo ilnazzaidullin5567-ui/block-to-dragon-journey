@@ -98,7 +98,7 @@ const DIMS: Dim[] = [
 ];
 
 export function Dimensions() {
-  const [activeId, setActiveId] = useState(DIMS[0].id);
+  const [activeId, setActiveId] = useState(DIMS[0]!.id);
   const dim = DIMS.find((d) => d.id === activeId)!;
 
   return (

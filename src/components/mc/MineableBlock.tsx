@@ -49,10 +49,10 @@ export function MineableBlock() {
   const raf = useRef<number>(0);
   const lastTick = useRef(0);
   const lastDig = useRef(0);
-  const block = BLOCKS[index];
+  const block = BLOCKS[index] ?? BLOCKS[0]!;
 
   const breakIt = useCallback(() => {
-    const b = BLOCKS[index];
+    const b = BLOCKS[index] ?? BLOCKS[0]!;
     sfx.breakBlock();
     if (b.name === "Динамит") sfx.boom();
     setBroken(true);
@@ -64,7 +64,7 @@ export function MineableBlock() {
           id: Date.now() + i,
           dx: Math.cos(ang) * dist,
           dy: Math.sin(ang) * dist - 40,
-          color: b.colors[i % b.colors.length],
+          color: b.colors[i % b.colors.length] ?? "#000",
           size: 6 + Math.round(Math.random() * 8),
           delay: Math.random() * 80,
         };
@@ -91,7 +91,7 @@ export function MineableBlock() {
           lastDig.current = t;
         }
         setProgress((p) => {
-          const next = p + dt / BLOCKS[index].time;
+          const next = p + dt / (BLOCKS[index]?.time ?? 1000);
           return next >= 1 ? 1 : next;
         });
       }

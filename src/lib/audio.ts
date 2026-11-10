@@ -116,8 +116,8 @@ export function playTrack(id: TrackId) {
     if (!ctx || current !== id) return;
     while (nextTime < ctx.currentTime + 0.15) {
       const i = step % p.lead.length;
-      const l = p.lead[i];
-      const b = p.bass[i];
+      const l = p.lead[i] ?? null;
+      const b = p.bass[i] ?? null;
       if (l !== null) tone(mtof(l), nextTime, p.leadDur, p.wave, p.wave === "square" ? 0.06 : 0.14, p.cutoff);
       if (b !== null) tone(mtof(b), nextTime, p.leadDur * 1.6 + 0.3, p.bassWave, p.bassWave === "sawtooth" ? 0.07 : 0.18, 900);
       if (p.perc) {

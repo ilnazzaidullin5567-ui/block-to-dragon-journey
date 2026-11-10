@@ -30,7 +30,7 @@ export function Jukebox() {
       const active = readLevels(data);
       barsRef.current.forEach((el, i) => {
         if (!el) return;
-        const v = active ? Math.min(1, (data[bins[i]] / 255) * (1 + i / BARS)) : 0.08 + Math.abs(Math.sin(t / 900 + i * 0.5)) * 0.08;
+        const v = active ? Math.min(1, ((data[bins[i] ?? 2] ?? 0) / 255) * (1 + i / BARS)) : 0.08 + Math.abs(Math.sin(t / 900 + i * 0.5)) * 0.08;
         el.style.transform = `scaleY(${Math.max(0.05, v)})`;
       });
       raf = requestAnimationFrame(tick);
