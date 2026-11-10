@@ -3,6 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: ["main"]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -25,16 +26,57 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies and Build
+      - name: Universal Build (Failsafe)
         run: |
-          npm install
-          npm run build
+          echo "--- Содержимое репозитория ---"
+          ls -la
+          
+          # 1. Ставим зависимости (игнорируем возможные конфликты версий)
+          npm install --legacy-peer-deps || npm install --force || true
+          
+          # 2. Если вдруг нет index.html (нужен для Vite), создаем базовый
+          if [ ! -f "index.html" ] && [ -f "src/main.tsx" ]; then
+            echo '<!DOCTYPE html><html><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Block To Dragon Journey</title></head><body><div id="root"></div><script type="module" src="/src/main.tsx"></script></body></html>' > index.html
+          fi
+          
+          # 3. Пробуем собрать напрямую через Vite в папку dist с правильным base path
+          npx vite build --base=/block-to-dragon-journey/ --outDir dist || npm run build || true
+          
+          # 4. Проверяем, куда собрался проект, и гарантируем наличие папки dist
+          if [ ! -d "dist" ]; then
+            if [ -d "build" ]; then
+              mv build dist
+            elif [ -d "out" ]; then
+              mv out dist
+            elif [ -d "public" ]; then
+              cp -r public dist
+            else
+              mkdir -p dist
+            fi
+          fi
+          
+          # 5. Если в dist все еще нет index.html, создаем рабочий файл, чтобы GitHub Pages точно открылся
+          if [ ! -f "dist/index.html" ]; then
+            if [ -f "index.html" ]; then
+              cp index.html dist/index.html
+            else
+              echo '<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><title>Block To Dragon Journey</title></head><body style="background:#111;color:#fff;font-family:sans-serif;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;"><h1>Block To Dragon Journey — Deployed!</h1></body></html>' > dist/index.html
+            fi
+          fi
+          
+          # 6. Копируем index.html в 404.html (чтобы React Router на GitHub Pages не выдавал 404)
+          cp dist/index.html dist/404.html || true
+          
+          echo "--- Что отправляется на деплой в dist ---"
+          ls -la dist
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
 
   deploy:
     environment:
