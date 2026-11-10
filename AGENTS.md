@@ -28,3 +28,9 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+- Page sections live in `src/components/sections/*`, composed by `src/routes/index.tsx`; shared Minecraft GUI pieces live in `src/components/mc/*` — keeps the long single page maintainable.
+- Pixel art is data in `src/lib/sprites.ts` rendered by `PixelArt` (SVG); palette hexes there are texture data, while UI colors come only from tokens in `src/styles.css`.
+- All sound is synthesized with Web Audio in `src/lib/audio.ts` and started only from user events — no audio files to host and nothing runs during SSR.
+- Randomized decorative values rendered on first paint must be deterministic and pre-rounded (see Hero orbs) to avoid hydration mismatches.
