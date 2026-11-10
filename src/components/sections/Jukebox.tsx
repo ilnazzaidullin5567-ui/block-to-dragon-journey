@@ -81,9 +81,9 @@ export function Jukebox() {
               </div>
               {/* Jukebox block */}
               <div className="mc-panel relative w-full max-w-sm overflow-hidden border-4 border-obsidian">
-                <div className="h-6 bg-[oklch(0.35_0.06_50)] shadow-[inset_0_-4px_0_oklch(0_0_0/0.35)]" />
-                <div className="grid grid-cols-[1fr_2fr_1fr] gap-0 bg-[oklch(0.42_0.07_50)] p-4">
-                  <div className="h-full bg-[oklch(0.3_0.05_50)] shadow-[inset_-3px_-3px_0_oklch(0_0_0/0.35)]" />
+                <div className="h-6 bg-wood-dark shadow-[inset_0_-4px_0_oklch(0_0_0/0.35)]" />
+                <div className="grid grid-cols-[1fr_2fr_1fr] gap-0 bg-wood p-4">
+                  <div className="h-full bg-wood-deep shadow-[inset_-3px_-3px_0_oklch(0_0_0/0.35)]" />
                   <div className="mx-3 flex h-32 items-end justify-center gap-[3px] bg-obsidian p-2 shadow-[inset_3px_3px_0_oklch(0_0_0/0.6)]">
                     {Array.from({ length: BARS }).map((_, i) => (
                       <span
@@ -99,9 +99,9 @@ export function Jukebox() {
                       />
                     ))}
                   </div>
-                  <div className="h-full bg-[oklch(0.3_0.05_50)] shadow-[inset_-3px_-3px_0_oklch(0_0_0/0.35)]" />
+                  <div className="h-full bg-wood-deep shadow-[inset_-3px_-3px_0_oklch(0_0_0/0.35)]" />
                 </div>
-                <div className="h-6 bg-[oklch(0.35_0.06_50)] shadow-[inset_0_4px_0_oklch(1_0_0/0.08)]" />
+                <div className="h-6 bg-wood-dark shadow-[inset_0_4px_0_oklch(1_0_0/0.08)]" />
               </div>
             </div>
           </Reveal>

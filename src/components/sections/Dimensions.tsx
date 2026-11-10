@@ -104,8 +104,8 @@ export function Dimensions() {
   return (
     <section
       id="dimensions"
-      className="relative overflow-hidden py-24 transition-[--dim] duration-700 sm:py-32"
-      style={{ "--dim": dim.accent } as CSSProperties}
+      className="relative overflow-hidden py-24 sm:py-32"
+      style={{ "--dim": dim.accent, transition: "--dim 700ms ease" } as CSSProperties}
     >
       {DIMS.map((d) => (
         <img
