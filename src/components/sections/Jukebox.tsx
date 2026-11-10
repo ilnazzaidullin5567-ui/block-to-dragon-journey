@@ -26,12 +26,27 @@ export function Jukebox() {
     // Log-spaced bins from ~90 Hz to ~6 kHz so every bar moves.
     const bins = Array.from({ length: BARS }, (_, i) => Math.round(2 * Math.pow(64, i / (BARS - 1))));
     let raf = 0;
+    const raw = new Float32Array(BARS);
     const tick = (t: number) => {
       const active = readLevels(data);
+      for (let i = 0; i < BARS; i++) {
+        if (!active) {
+          raw[i] = 0.08 + Math.abs(Math.sin(t / 900 + i * 0.5)) * 0.08;
+          continue;
+        }
+        // Peak across this bar's frequency band, boosted toward the treble.
+        const from = bins[i] ?? 2;
+        const to = Math.max(from + 1, bins[i + 1] ?? from + 1);
+        let peak = 0;
+        for (let k = from; k < to; k++) peak = Math.max(peak, data[k] ?? 0);
+        raw[i] = Math.min(1, (peak / 255) * (1.1 + i / BARS));
+      }
       barsRef.current.forEach((el, i) => {
         if (!el) return;
-        const v = active ? Math.min(1, ((data[bins[i] ?? 2] ?? 0) / 255) * (1 + i / BARS)) : 0.08 + Math.abs(Math.sin(t / 900 + i * 0.5)) * 0.08;
-        el.style.transform = `scaleY(${Math.max(0.05, v)})`;
+        const v = active
+          ? 0.25 * (raw[i - 1] ?? 0) + 0.5 * (raw[i] ?? 0) + 0.25 * (raw[i + 1] ?? 0) + Math.abs(Math.sin(t / 220 + i)) * 0.06
+          : (raw[i] ?? 0);
+        el.style.transform = `scaleY(${Math.max(0.05, Math.min(1, v))})`;
       });
       raf = requestAnimationFrame(tick);
     };
@@ -86,7 +101,7 @@ export function Jukebox() {
                 <div className="h-6 bg-wood-dark shadow-[inset_0_-4px_0_oklch(0_0_0/0.35)]" />
                 <div className="grid grid-cols-[1fr_2fr_1fr] gap-0 bg-wood p-4">
                   <div className="h-full bg-wood-deep shadow-[inset_-3px_-3px_0_oklch(0_0_0/0.35)]" />
-                  <div className="mx-3 flex h-36 items-end justify-center gap-[3px] bg-obsidian p-2 shadow-[inset_3px_3px_0_oklch(0_0_0/0.6)]">
+                  <div className="mx-3 flex h-36 items-end justify-center gap-[2px] bg-obsidian p-2 shadow-[inset_3px_3px_0_oklch(0_0_0/0.6)]">
                     {Array.from({ length: BARS }).map((_, i) => (
                       <span
                         key={i}
